@@ -12,7 +12,17 @@ namespace WebHdfsClient {
         private HttpWebRequest client;
         private readonly string hdfsUrl;
 
-        public WebHdfsClient(string host, string port = "50075", string version = "v1") {
+        
+        // GET OPERATIONS
+        public const string GET_OPERATION_OPEN = "OPEN";
+        public const string GET_OPERATION_GETFILESTATUS = "GETFILESTATUS";
+        public const string GET_OPERATION_LISTSTATUS = "LISTSTATUS";
+        
+        public const string DEFAULT_HTTP_WEBHDFS_PORT = "50075";
+        public const string DEFAULT_HTTP_WEBHDFS_VERSION = "v1";
+        
+        
+        public WebHdfsClient(string host, string port = DEFAULT_HTTP_WEBHDFS_PORT, string version = DEFAULT_HTTP_WEBHDFS_VERSION) {
             hdfsUrl = $"http://{host}:{port}/webhdfs/{version}";
         }
 
@@ -40,16 +50,16 @@ namespace WebHdfsClient {
             if (contentlength != null) parameters.Add("length", contentlength);
             if (buffersize != null) parameters.Add("buffersize", buffersize);
 
-            return GetRequest(folder, "OPEN", parameters);
+            return GetRequest(folder, GET_OPERATION_OPEN, parameters);
         }
 
 
         public string FileStatus(string folder) {
-            return GetRequest(folder, "GETFILESTATUS");
+            return GetRequest(folder, GET_OPERATION_GETFILESTATUS);
         }
 
         public string ListStatus(string folder) {
-            return GetRequest(folder, "LISTSTATUS");
+            return GetRequest(folder, GET_OPERATION_LISTSTATUS);
         }
 
     }
